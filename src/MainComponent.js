@@ -1,23 +1,48 @@
 import {useDispatch, useSelector} from 'react-redux';
 import React, {useState} from 'react';
 import {changeName} from './store/actions';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Button,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import {MainScreen} from './screens/MainScreen';
+import {LoginScreen} from './screens/LoginScreen';
+import {ProductDetailsScreen} from './screens/ProductDetailsScreen';
+import {RegistrationScreen} from './screens/RegistrationScreen';
 
 export const MainComponent = () => {
-  const {name, age} = useSelector(store => store);
-  const [inputValue, setInput] = useState('ghbdt');
-  const dispatch = useDispatch();
+  const [currentScreen, setScreen] = useState('MainScreen');
+  // const {name, age} = useSelector(store => store);
+  // const [inputValue, setInput] = useState('ghbdt');
+  // const dispatch = useDispatch();
+  // const submitNewName = () => {
+  //   dispatch(changeName(inputValue));
+  // };
+  const renderScreen = () => {
+    switch (currentScreen) {
+      case 'MainScreen':
+        return <MainScreen />;
+      case 'LoginScreen':
+        return <LoginScreen />;
+      case 'ProductDetailsScreen':
+        return <ProductDetailsScreen />;
+      case 'RegistrationScreen':
+        return <RegistrationScreen />;
+
+      default:
+        return <MainScreen />;
+    }
+  };
   return (
-    <View style={styles.mainContainer}>
-      <Text style={styles.text}>{`I'm ${name}, and I'm ${age} years old`}</Text>
-      <TextInput value={inputValue} onChangeText={setInput} />
-      <Button
-        title="Save"
-        onPress={() => {
-          dispatch(changeName(inputValue));
-        }}
-      />
-    </View>
+    <ScrollView>
+      <View style={styles.mainContainer}>
+        <MainScreen />
+      </View>
+    </ScrollView>
   );
 };
 
@@ -25,9 +50,5 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     alignItems: 'center',
-  },
-  text: {
-    fontSize: 30,
-    fontWeight: 'bold',
   },
 });
